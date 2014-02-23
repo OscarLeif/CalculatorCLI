@@ -8,8 +8,10 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 #include <stdlib.h>
 #include "convert.h"
+#include <string.h>
 
 using namespace std;
 class Numbers {
@@ -17,9 +19,11 @@ private:
 	int input;
 	string resultBin;
 public:
+	Numbers() {
+		resultBin = new char();
+	}
 	void convertDECtoBIN(int value) {
 		int remainder;
-
 		if (value <= 1) {
 			cout << value;
 			return;
@@ -29,11 +33,113 @@ public:
 		cout << remainder;
 
 		std::stringstream out;
-		out << resultBin;
-		resultBin = out.str();
+		out.putback(remainder);
+
+		std::string s = out.str();
+		resultBin = s;
+		cout << s;
 	}
-	string getResult() {
-		return resultBin + "_bin";
+	string deci2binary(unsigned long n) {
+		char result[(sizeof(unsigned long) * 8) + 1];
+		unsigned index = sizeof(unsigned long) * 8;
+		result[index] = '\0';
+
+		do
+			result[--index] = '0' + (n & 1);
+		while (n >>= 1);
+
+		return string(result + index);
+	}
+	string getResultBIN() {
+		return resultBin;
+	}
+	string convertInt2String(int number) {
+		if (number == 0)
+			return "0";
+		string temp = "";
+		string returnvalue = "";
+		while (number > 0) {
+			temp += number % 10 + 48;
+			number /= 10;
+		}
+		for (int i = 0; i < temp.length(); i++)
+			returnvalue += temp[temp.length() - i - 1];
+		return returnvalue;
+	}
+
+	string deci2Octal(long value) {
+		int total;
+		//cout << "Please enter a decimal: ";
+		//cin >> num;
+		string stringConvert;
+		while (value > 0) {
+			total = value % 8;
+			value /= 8;
+			//cout << total << "";
+			std::string s;
+			std::stringstream out;
+			out << total;
+			s = out.str();
+
+			stringConvert += s;
+		}
+
+		ostringstream convert;   // stream used for the conversion
+		string toBeReversed = stringConvert;
+		reverse(toBeReversed.begin(), toBeReversed.end());
+		cout << "Conversion result: " + toBeReversed + "_OCT" << endl;
+		return string(toBeReversed);
+	}
+
+	string deci2hexa(long value) {
+		int hexa[2] = { 0 }, x, y, i = 1;
+
+		//cout << "Enter the value to convert to hexa: ";
+		x = value;
+		string result;
+		y = x;
+
+		do {
+			hexa[i] = y % 16;
+			y = y / 16;
+			i--;
+
+		} while (y > 0);
+
+		for (i = 0; i < 2; i++) {
+			y = hexa[i];
+
+			if (y == 10) {
+				//cout << 'A';
+				result.push_back('A');
+			} else if (y == 11) {
+				//cout << 'B';
+				result.push_back('B');
+			} else if (y == 12) {
+				//cout << 'C';
+				result.push_back('C');
+			} else if (y == 13) {
+				//cout << 'D';
+				result.push_back('D');
+			} else if (y == 14) {
+				//cout << 'E';
+				result.push_back('E');
+			} else if (y == 15) {
+				//cout << 'F';
+				result.push_back('F');
+			} else {
+				//cout << y;
+				int a = y;
+				string ab = convertInt2String(a);
+				char ch = ab.at(ab.length() - 1);
+				result.push_back(ch);
+
+			}
+			cout << result << endl;
+		}
+
+		return result;
+
 	}
 
 };
@@ -47,10 +153,7 @@ int main(int argc, char **argv) {
 
 	int numberInput;
 	cout << "Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
-	//cout << "enter a number to convert to binary" << endl;
-	//cin >> numberInput;
-	//num.convertDECtoBIN(numberInput);
-	//vectorResult.push_back(num.getResult());
+
 	vectorResult.push_back("One");
 	vectorResult.push_back("Two");
 
@@ -61,40 +164,67 @@ int main(int argc, char **argv) {
 	cout << vectorResult[vectorResult.size() - 1] << endl;
 
 	cout << "Waiting commands " << endl;
-
+	int integer;
+	cin >> command;
 	while (command != "bye") {
 
-		int integer;
-		cin >> command;
-		//string buffer = "123456789";
-		//cout << "String:" << buffer << endl;
-		//integer=atoi(buffer.c_str());
-
-		try {
-			integer = (int) convertToDouble(command);
-		} catch (bad_exception e) {
-
-		}
-
-		//cout << "Integer:" << integer << endl;
-
-		if (integer >= 0) {
-			cout << "Number is working" << endl;
-			int i = 5;
-			std::string s;
-			std::stringstream out;
-			out << integer;
-			s = out.str();
-			vectorResult.push_back(s);
-			cout << integer << endl;
+		if (isInteger(command)) {
+			vectorResult.push_back(command);
+			cout << "Added the element " + command << endl;
 		}
 
 		if (command == "stk") {
 			cout << "Stack !!!!" << endl;
+			for (int var = 0; var < vectorResult.size(); var++) {
+				cout << vectorResult[var] << endl;
+			}
+		}
+		if (command == "bin") {
+			string number = vectorResult[vectorResult.size() - 1];
+			if (isInteger(number)) {
+				int result;
+				stringstream(number) >> result;
+				num.convertDECtoBIN(result);
+				vectorResult.push_back(num.deci2binary(result) + "_BIN");
+			}
+
+		}
+
+		if (command == "oct") {
+			string number = vectorResult[vectorResult.size() - 1];
+			if (isInteger(number)) {
+				int result;
+				stringstream(number) >> result;
+				cout << "Number to convert to OCT: " + number << endl;
+
+				vectorResult.push_back(num.deci2Octal(result) + "_OCT");
+			}
+		}
+
+		if (command == "hex") {
+			string number = vectorResult[vectorResult.size() - 1];
+			if (isInteger(number)) {
+				int result;
+				stringstream(number) >> result;
+				cout << "Number to convert to HEX: " + number << endl;
+				num.deci2hexa(result);
+				vectorResult.push_back(num.deci2hexa(result) + "_HEX");
+			}
+		}
+
+		if (command == "") {
+			cout << "Write a command" << endl;
 		}
 
 		if (command == "bye") {
 			exit(0);
+		}
+
+		if (command == "dump") {
+			cout << "deberia dumpear un archivo" << endl;
+		}
+		if (command == "clc") {
+			system("cls");
 		}
 		cout << "waiting new command" << endl;
 		cin >> command;
