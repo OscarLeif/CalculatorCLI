@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include "convert.h"
 #include <string.h>
+#include <fstream>
+#include <iterator>
 
 using namespace std;
 class Numbers {
@@ -221,17 +223,101 @@ int main(int argc, char **argv) {
 		}
 
 		if (command == "dump") {
-			cout << "deberia dumpear un archivo" << endl;
+			//std::ofstream output_file("./result.txt"); //carpeta antes de donde esta el exe
+			std::ofstream output_file("result.txt");
+			std::ostream_iterator<std::string> output_iterator(output_file,
+					"\n");
+			std::copy(vectorResult.begin(), vectorResult.end(),
+					output_iterator);
+			cout << "File dumped in the same folder of this exe" << endl;
 		}
 		if (command == "clc") {
 			system("cls");
 		}
-		cout << "waiting new command" << endl;
-		cin >> command;
 
-	} //fin del while.
-	cout << "bye bye !!!!!" << endl;
-	return 0;
+		if (command == "add") {
+			//suma los dos ultimos valores del stack y el resul
+			string number = vectorResult[vectorResult.size() - 1];
+			string numberP = vectorResult[vectorResult.size() - 2];
+			if (isInteger(number)) {
+				int result;
+				int resultP;
+				stringstream(number) >> result;
+				stringstream(numberP) >> resultP;
 
-}
+				int a = result + resultP;
+				//int a = 10;
+				stringstream ss;
+				ss << a;
+				string str = ss.str();
+				vectorResult.push_back(str);
+				cout << "Result of adition: " + a << endl;
+			}
+		}
+		if (command == "sub") {
+			//resta (subtract) los dos ultimos valores del stack y el resul
+			string number = vectorResult[vectorResult.size() - 1];
+			string numberP = vectorResult[vectorResult.size() - 2];
+			if (isInteger(number)) {
+				int result;
+				int resultP;
+				stringstream(number) >> result;
+				stringstream(numberP) >> resultP;
+
+				int a = result - resultP;
+				//int a = 10;
+				stringstream ss;
+				ss << a;
+				string str = ss.str();
+				vectorResult.push_back(str);
+				cout << "Result of adition: " + a << endl;
+			}
+		}
+		if (command == "mul") {
+			//multiplica (multiply) los dos ultimos valores del stack y el resul
+			string number = vectorResult[vectorResult.size() - 1];
+			string numberP = vectorResult[vectorResult.size() - 2];
+			if (isInteger(number)) {
+				int result;
+				int resultP;
+				stringstream(number) >> result;
+				stringstream(numberP) >> resultP;
+
+				int a = result * resultP;
+				//int a = 10;
+				stringstream ss;
+				ss << a;
+				string str = ss.str();
+				vectorResult.push_back(str);
+				cout << "Result of adition: " + a << endl;
+			}
+		}
+
+		if (command == "div") {
+			//multiplica (multiply) los dos ultimos valores del stack y el resul
+			string number = vectorResult[vectorResult.size() - 1];
+			string numberP = vectorResult[vectorResult.size() - 2];
+			if (isInteger(number)) {
+				int result;
+				int resultP;
+				stringstream(number) >> result;
+				stringstream(numberP) >> resultP;
+
+				int a = result / resultP;
+				//int a = 10;
+				stringstream ss;
+				ss << a;
+				string str = ss.str();
+				vectorResult.push_back(str);
+				cout << "Result of adition: " + a << endl;
+			}
+		}
+			cout << "waiting new command" << endl;
+			cin >> command;
+
+		} //fin del while.
+		cout << "bye bye !!!!!" << endl;
+		return 0;
+
+	}
 

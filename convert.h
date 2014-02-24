@@ -12,7 +12,7 @@ public:
 	}
 };
 
-inline double convertToDouble(std::string const& s) {
+inline double convertStringToDouble(std::string const& s) {
 	std::istringstream i(s);
 	double x;
 	if (!(i >> x))
@@ -28,5 +28,4 @@ inline bool isInteger(const std::string & s) {
 
 	return (*p == 0);
 }
-
 
