@@ -33,7 +33,7 @@ public:
 			cout << value;
 			return;
 		}
-		remainder = value%mod;
+		remainder = value % mod;
 		cout << remainder << endl;
 		convertDECtoBIN(value.toInt() >> 1);
 		//cout << remainder;
@@ -147,6 +147,51 @@ public:
 		return result;
 
 	}
+//New method for BigInteger
+	string bigDecToBin(BigInteger number) {
+		if (number == 0)
+			return "0";
+		if (number == 1)
+			return "1";
+
+		if (number % 2 == 0)
+			return bigDecToBin(number / 2) + "0";
+		else
+			return bigDecToBin(number / 2) + "1";
+	}
+//New Method for BigInteger
+	BigInteger BinToDec(string number) {
+		BigInteger result = 0, pow = 1;
+		//for ( BigInteger i = number.length() - 1; i >= 0; --i, pow <<= 1 )
+		//  result += (number[i] - '0') * pow;
+
+		return result;
+	}
+	//New Method for BigInteger
+	string bigDeci2Octal(BigInteger value) {
+		BigInteger total;
+		//cout << "Please enter a decimal: ";
+		//cin >> num;
+		string stringConvert;
+		while (value > 0) {
+			total = value % 8;
+			value /= 8;
+			//cout << total << "";
+			std::string s;
+			std::stringstream out;
+			out << total;
+			s = out.str();
+			stringConvert += bigIntegerToString(total);
+		}
+
+		ostringstream convert;   // stream used for the conversion
+		string toBeReversed = stringConvert;
+		reverse(toBeReversed.begin(), toBeReversed.end());
+		cout << "Conversion result: " + stringConvert + "_OCT" << endl;
+		return string(toBeReversed);
+	}
+
+
 
 };
 
@@ -187,16 +232,16 @@ int main(int argc, char **argv) {
 		}
 		if (command == "bin") {
 			string number = vectorResult[vectorResult.size() - 1];
-cout << number << endl;
+			cout << number << endl;
 			if (isInteger(number)) {
 
 				BigInteger result = stringToBigInteger(number);
 				//stringstream(number) >> result;
-				num.convertDECtoBIN(result);
+				//num.convertDECtoBIN(result);
 				//num.convertDECtoBIN(result);
 				cout << result;
 
-				vectorResult.push_back(num.getResultBIN() + "_BIN");
+				vectorResult.push_back(num.bigDecToBin(result) + "_BIN");
 			}
 
 		}
@@ -204,11 +249,11 @@ cout << number << endl;
 		if (command == "oct") {
 			string number = vectorResult[vectorResult.size() - 1];
 			if (isInteger(number)) {
-				int result;
-				stringstream(number) >> result;
+				BigInteger result = stringToBigInteger(number);
+				//stringstream(number) >> result;
 				cout << "Number to convert to OCT: " + number << endl;
 
-				vectorResult.push_back(num.deci2Octal(result) + "_OCT");
+				vectorResult.push_back(num.bigDeci2Octal(result) + "_OCT");
 			}
 		}
 
@@ -228,7 +273,8 @@ cout << number << endl;
 			BigInteger a;
 			string str = "43443243243242";
 			cout << "Enter a integer: " << endl;
-			cout << "the number will be : a * a * a * a * a * a * a * a" <<endl;
+			cout << "the number will be : a * a * a * a * a * a * a * a"
+					<< endl;
 			int result;
 			cin >> result;
 
@@ -237,7 +283,7 @@ cout << number << endl;
 
 			vectorResult.push_back(
 					bigIntegerToString(a * a * a * a * a * a * a * a));
-			cout << (a * a * a * a * a * a * a * a)<<endl;
+			cout << (a * a * a * a * a * a * a * a) << endl;
 
 		}
 
