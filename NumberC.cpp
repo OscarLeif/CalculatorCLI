@@ -191,7 +191,49 @@ public:
 		return string(toBeReversed);
 	}
 
+	string bigDecimal2Hex(BigInteger value) {
+		string result;
+		BigInteger hexa[2] = { 0 }, x, y, i = 1;
 
+		y = value;
+		do {
+			hexa[i.toInt()] = y % 16;
+			y = y / 16;
+			i--;
+		} while (y > 0);
+		for (i = 0; i < 2; i++) {
+			y = hexa[i.toInt()];
+
+			if (y == 10) {
+				cout << 'A';
+				result.push_back('A');
+			} else if (y == 11) {
+				cout << 'B';
+				result.push_back('B');
+			} else if (y == 12) {
+				cout << 'C';
+				result.push_back('C');
+			} else if (y == 13) {
+				result.push_back('D');
+				cout << 'D';
+			} else if (y == 14) {
+				result.push_back('E');
+				cout << 'E';
+			} else if (y == 15) {
+				result.push_back('F');
+				cout << 'F';
+			} else {
+				BigInteger a = y;
+				string ab = bigIntegerToString(a);
+				char ch = ab.at(ab.length() - 1);
+				//char* chh = ab.at(ab.length() - 1);
+				result.push_back(ch);
+				cout << y;
+			}
+
+		}
+		return result;
+	}
 
 };
 
@@ -224,13 +266,13 @@ int main(int argc, char **argv) {
 			cout << "Added the element " + command << endl;
 		}
 
-		if (command == "stk") {
+		if (command == "stk" || command == "SKT") {
 			cout << "Stack !!!!" << endl;
 			for (int var = 0; var < vectorResult.size(); var++) {
 				cout << vectorResult[var] << endl;
 			}
 		}
-		if (command == "bin") {
+		if (command == "bin" || command == "BIN") {
 			string number = vectorResult[vectorResult.size() - 1];
 			cout << number << endl;
 			if (isInteger(number)) {
@@ -246,7 +288,7 @@ int main(int argc, char **argv) {
 
 		}
 
-		if (command == "oct") {
+		if (command == "oct" || command == "OCT") {
 			string number = vectorResult[vectorResult.size() - 1];
 			if (isInteger(number)) {
 				BigInteger result = stringToBigInteger(number);
@@ -257,14 +299,15 @@ int main(int argc, char **argv) {
 			}
 		}
 
-		if (command == "hex") {
+		if (command == "hex" || command == "HEX") {
 			string number = vectorResult[vectorResult.size() - 1];
 			if (isInteger(number)) {
 				int result;
 				stringstream(number) >> result;
+				BigInteger a = stringToBigInteger(number);
 				cout << "Number to convert to HEX: " + number << endl;
-				num.deci2hexa(result);
-				vectorResult.push_back(num.deci2hexa(result) + "_HEX");
+				//num.bigDecimal2Hex(a);
+				vectorResult.push_back(num.bigDecimal2Hex(a) + "_HEX");
 			}
 		}
 
@@ -291,7 +334,7 @@ int main(int argc, char **argv) {
 			exit(0);
 		}
 
-		if (command == "dump") {
+		if (command == "dump" || command == "DUMP") {
 			//std::ofstream output_file("./result.txt"); //carpeta antes de donde esta el exe
 			std::ofstream output_file("result.txt");
 			std::ostream_iterator<std::string> output_iterator(output_file,
@@ -300,11 +343,11 @@ int main(int argc, char **argv) {
 					output_iterator);
 			cout << "File dumped in the same folder of this exe" << endl;
 		}
-		if (command == "clc") {
+		if (command == "clc" || command == "CLC") {
 			system("cls");
 		}
 
-		if (command == "add") {
+		if (command == "add" || command == "ADD") {
 			//suma los dos ultimos valores del stack y el resul
 			string number = vectorResult[vectorResult.size() - 1];
 			string numberP = vectorResult[vectorResult.size() - 2];
@@ -323,7 +366,7 @@ int main(int argc, char **argv) {
 				cout << "Result of adition: " + a << endl;
 			}
 		}
-		if (command == "sub") {
+		if (command == "sub" || command == "SUB") {
 			//resta (subtract) los dos ultimos valores del stack y el resul
 			string number = vectorResult[vectorResult.size() - 1];
 			string numberP = vectorResult[vectorResult.size() - 2];
@@ -342,7 +385,7 @@ int main(int argc, char **argv) {
 				cout << "Result of adition: " + a << endl;
 			}
 		}
-		if (command == "mul") {
+		if (command == "mul" || command == "MUL") {
 			//multiplica (multiply) los dos ultimos valores del stack y el resul
 			string number = vectorResult[vectorResult.size() - 1];
 			string numberP = vectorResult[vectorResult.size() - 2];
@@ -362,7 +405,7 @@ int main(int argc, char **argv) {
 			}
 		}
 
-		if (command == "div") {
+		if (command == "div" || command == "div") {
 			//multiplica (multiply) los dos ultimos valores del stack y el resul
 			string number = vectorResult[vectorResult.size() - 1];
 			string numberP = vectorResult[vectorResult.size() - 2];
@@ -381,7 +424,7 @@ int main(int argc, char **argv) {
 				cout << "Result of adition: " + a << endl;
 			}
 		}
-		if (command == "swap") {
+		if (command == "swap" || command == "SWAP") {
 			string objFinal;
 			string objFirst;
 
@@ -396,13 +439,28 @@ int main(int argc, char **argv) {
 			cout << "Swaped !!" << endl;
 
 		}
-		if (command == "neg") {
+		if (command == "neg" || command == "NEG") {
 			string objFinal = vectorResult[vectorResult.size() - 1];
-			int number = convertStringToDouble(objFinal);
+			BigInteger number = stringToBigInteger(objFinal);
 			number = number * -1;
-			cout << "This is the new number: " + stringify(number) << endl;
-			vectorResult.push_back(stringify(number));
+			cout << "This is the new number: " + bigIntegerToString(number)
+					<< endl;
+			vectorResult.push_back(bigIntegerToString(number));
 		}
+		if (command == "help" || command == "?") {
+			cout << "This is a simple calculator using CLI" << endl;
+			cout << "This the list of commands" << endl;
+			cout << "add, sub, mul, div, neg" << endl;
+			cout
+					<< "if you write a number it will be stored to save it just type dump. "
+					<< endl;
+			cout
+					<< "Of course you can also convert to Binary, Octal and Hex number"
+					<< endl;
+			cout << "The comands are bin, hex, oct" << endl;
+			cout << "To exit just write, bye" << endl;
+		}
+
 		cout << "waiting new command" << endl;
 		cin >> command;
 
