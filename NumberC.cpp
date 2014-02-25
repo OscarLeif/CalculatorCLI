@@ -193,45 +193,45 @@ public:
 
 	string bigDecimal2Hex(BigInteger value) {
 		string result;
-		BigInteger hexa[2] = { 0 }, x, y, i = 1;
-
-		y = value;
-		do {
-			hexa[i.toInt()] = y % 16;
-			y = y / 16;
-			i--;
-		} while (y > 0);
-		for (i = 0; i < 2; i++) {
-			y = hexa[i.toInt()];
-
-			if (y == 10) {
-				cout << 'A';
-				result.push_back('A');
-			} else if (y == 11) {
-				cout << 'B';
-				result.push_back('B');
-			} else if (y == 12) {
-				cout << 'C';
-				result.push_back('C');
-			} else if (y == 13) {
-				result.push_back('D');
-				cout << 'D';
-			} else if (y == 14) {
-				result.push_back('E');
-				cout << 'E';
-			} else if (y == 15) {
-				result.push_back('F');
-				cout << 'F';
-			} else {
-				BigInteger a = y;
-				string ab = bigIntegerToString(a);
-				char ch = ab.at(ab.length() - 1);
-				//char* chh = ab.at(ab.length() - 1);
-				result.push_back(ch);
-				cout << y;
-			}
-
+		BigInteger n, ar[10], i;
+		n = value;
+		for (i = 0; n != 0; i++) {
+			ar[i.toInt()] = n % 16;
+			n = n / 16;
 		}
+		i--;
+		for (int j = i.toInt(); j >= 0; j--) {
+			if (ar[j] == 10) {
+				cout << "A";
+				result.push_back('A');
+			} else if (ar[j] == 11) {
+				cout << "B";
+				result.push_back('B');
+			} else if (ar[j] == 12) {
+				cout << "C";
+				result.push_back('C');
+			} else if (ar[j] == 13) {
+				cout << "D";
+				result.push_back('D');
+			} else if (ar[j] == 14) {
+				cout << "E";
+				result.push_back('E');
+			} else if (ar[j] == 15) {
+				cout << "F";
+				result.push_back('F');
+			} else {
+				cout << ar[j];
+				//BigInteger big = ar[j];
+				string ab = bigIntegerToString(ar[j]);
+				char ch = ab.at(ab.length() - 1);
+
+				string number = bigIntegerToString(ar[j]);
+				result.push_back(ch);
+				cout << number + " This is the magic number" << endl;
+			}
+		}
+		cout << endl;
+
 		return result;
 	}
 
