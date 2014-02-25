@@ -19,6 +19,14 @@ inline double convertStringToDouble(std::string const& s) {
 		throw BadConversion("convertToDouble(\"" + s + "\")");
 	return x;
 }
+//Convert from dobule to String.
+inline std::string stringify(double x)
+{
+  std::ostringstream o;
+  if (!(o << x))
+    throw BadConversion("stringify(double)");
+  return o.str();
+}
 inline bool isInteger(const std::string & s) {
 	if (s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+')))
 		return false;

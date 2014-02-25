@@ -14,8 +14,10 @@
 #include <string.h>
 #include <fstream>
 #include <iterator>
+#include "bigint-2010.04.30/BigIntegerLibrary.hh"
 
 using namespace std;
+
 class Numbers {
 private:
 	int input;
@@ -24,22 +26,24 @@ public:
 	Numbers() {
 		resultBin = new char();
 	}
-	void convertDECtoBIN(int value) {
-		int remainder;
+	void convertDECtoBIN(BigInteger value) {
+		BigInteger remainder;
+		BigInteger mod(2);
 		if (value <= 1) {
 			cout << value;
 			return;
 		}
-		remainder = value % 2;
-		convertDECtoBIN(value >> 1);
-		cout << remainder;
+		remainder = value%mod;
+		cout << remainder << endl;
+		convertDECtoBIN(value.toInt() >> 1);
+		//cout << remainder;
 
 		std::stringstream out;
-		out.putback(remainder);
-
-		std::string s = out.str();
-		resultBin = s;
-		cout << s;
+		//out.putback(remainder);
+		std::string s2 = bigIntegerToString(remainder);
+		//std::string s = out.str();
+		resultBin = s2;
+		cout << s2 + " I suposse the result is there <-" << endl;
 	}
 	string deci2binary(unsigned long n) {
 		char result[(sizeof(unsigned long) * 8) + 1];
@@ -154,16 +158,16 @@ int main(int argc, char **argv) {
 	string command;
 
 	int numberInput;
-	cout << "Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+	cout << "Calculator in CLI" << endl;
 
-	vectorResult.push_back("One");
-	vectorResult.push_back("Two");
+	//vectorResult.push_back("One");
+	//vectorResult.push_back("Two");
 
 	for (int var = 0; var < vectorResult.size(); var++) {
 		cout << vectorResult[var] << endl;
 	}
-	cout << "Here I show the last element of the vector" << endl;
-	cout << vectorResult[vectorResult.size() - 1] << endl;
+	//cout << "Here I show the last element of the vector" << endl;
+	//cout << vectorResult[vectorResult.size() - 1] << endl;
 
 	cout << "Waiting commands " << endl;
 	int integer;
@@ -183,11 +187,16 @@ int main(int argc, char **argv) {
 		}
 		if (command == "bin") {
 			string number = vectorResult[vectorResult.size() - 1];
+cout << number << endl;
 			if (isInteger(number)) {
-				int result;
-				stringstream(number) >> result;
+
+				BigInteger result = stringToBigInteger(number);
+				//stringstream(number) >> result;
 				num.convertDECtoBIN(result);
-				vectorResult.push_back(num.deci2binary(result) + "_BIN");
+				//num.convertDECtoBIN(result);
+				cout << result;
+
+				vectorResult.push_back(num.getResultBIN() + "_BIN");
 			}
 
 		}
@@ -214,8 +223,22 @@ int main(int argc, char **argv) {
 			}
 		}
 
-		if (command == "") {
-			cout << "Write a command" << endl;
+		if (command == "big") {
+			cout << "Big Integer test: " << endl;
+			BigInteger a;
+			string str = "43443243243242";
+			cout << "Enter a integer: " << endl;
+			cout << "the number will be : a * a * a * a * a * a * a * a" <<endl;
+			int result;
+			cin >> result;
+
+			a = result;
+			//stringstream("3324324323423432432") >> result;
+
+			vectorResult.push_back(
+					bigIntegerToString(a * a * a * a * a * a * a * a));
+			cout << (a * a * a * a * a * a * a * a)<<endl;
+
 		}
 
 		if (command == "bye") {
@@ -312,12 +335,34 @@ int main(int argc, char **argv) {
 				cout << "Result of adition: " + a << endl;
 			}
 		}
-			cout << "waiting new command" << endl;
-			cin >> command;
+		if (command == "swap") {
+			string objFinal;
+			string objFirst;
 
-		} //fin del while.
-		cout << "bye bye !!!!!" << endl;
-		return 0;
+			objFinal = vectorResult[vectorResult.size() - 1];
+			objFirst = vectorResult[vectorResult.size() - 2];
 
-	}
+			vectorResult.erase(vectorResult.end() - 1);
+			vectorResult.erase(vectorResult.end() - 1);
+
+			vectorResult.push_back(objFinal);
+			vectorResult.push_back(objFirst);
+			cout << "Swaped !!" << endl;
+
+		}
+		if (command == "neg") {
+			string objFinal = vectorResult[vectorResult.size() - 1];
+			int number = convertStringToDouble(objFinal);
+			number = number * -1;
+			cout << "This is the new number: " + stringify(number) << endl;
+			vectorResult.push_back(stringify(number));
+		}
+		cout << "waiting new command" << endl;
+		cin >> command;
+
+	} //fin del while.
+	cout << "bye bye !!!!!" << endl;
+	return 0;
+
+}
 
