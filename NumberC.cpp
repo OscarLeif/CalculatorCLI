@@ -691,18 +691,14 @@ int main(int argc, char **argv) {
 			string number = vectorResult[vectorResult.size() - 1];
 			string numberP = vectorResult[vectorResult.size() - 2];
 			if (isInteger(number)) {
-				int result;
-				int resultP;
-				stringstream(number) >> result;
-				stringstream(numberP) >> resultP;
+				BigInteger result = stringToBigInteger(number);
+				BigInteger resultP = stringToBigInteger(numberP);
 
-				int a = result + resultP;
+				BigInteger a = result + resultP;
 				//int a = 10;
-				stringstream ss;
-				ss << a;
-				string str = ss.str();
-				vectorResult.push_back(str);
-				cout << "Result of adition: " + a << endl;
+
+				vectorResult.push_back(bigIntegerToString(a));
+				cout << "Result of the adition: " + bigIntegerToString(a) << endl;
 			}
 		}
 		if (command == "sub" || command == "SUB") {
@@ -710,18 +706,14 @@ int main(int argc, char **argv) {
 			string number = vectorResult[vectorResult.size() - 1];
 			string numberP = vectorResult[vectorResult.size() - 2];
 			if (isInteger(number)) {
-				int result;
-				int resultP;
-				stringstream(number) >> result;
-				stringstream(numberP) >> resultP;
+				BigInteger result = stringToBigInteger(number);
+				BigInteger resultP = stringToBigInteger(numberP);
 
-				int a = result - resultP;
+				BigInteger a = result - resultP;
 				//int a = 10;
-				stringstream ss;
-				ss << a;
-				string str = ss.str();
-				vectorResult.push_back(str);
-				cout << "Result of adition: " + a << endl;
+
+				vectorResult.push_back(bigIntegerToString(a));
+				cout << "Result of the subtration: " + bigIntegerToString(a) << endl;
 			}
 		}
 		if (command == "mul" || command == "MUL") {
@@ -729,18 +721,15 @@ int main(int argc, char **argv) {
 			string number = vectorResult[vectorResult.size() - 1];
 			string numberP = vectorResult[vectorResult.size() - 2];
 			if (isInteger(number)) {
-				int result;
-				int resultP;
-				stringstream(number) >> result;
-				stringstream(numberP) >> resultP;
+				BigInteger result = stringToBigInteger(number);
+				BigInteger resultP = stringToBigInteger(numberP);
 
-				int a = result * resultP;
+				BigInteger a = result * resultP;
 				//int a = 10;
 				stringstream ss;
-				ss << a;
-				string str = ss.str();
-				vectorResult.push_back(str);
-				cout << "Result of adition: " + a << endl;
+
+				vectorResult.push_back(bigIntegerToString(a));
+				cout << "Result of the multiply: " + bigIntegerToString(a) << endl;
 			}
 		}
 
@@ -749,18 +738,15 @@ int main(int argc, char **argv) {
 			string number = vectorResult[vectorResult.size() - 1];
 			string numberP = vectorResult[vectorResult.size() - 2];
 			if (isInteger(number)) {
-				int result;
-				int resultP;
-				stringstream(number) >> result;
-				stringstream(numberP) >> resultP;
+				BigInteger result = stringToBigInteger(number);
+				BigInteger resultP = stringToBigInteger(numberP);
 
-				int a = result / resultP;
+				BigInteger a = result / resultP;
 				//int a = 10;
 				stringstream ss;
-				ss << a;
-				string str = ss.str();
-				vectorResult.push_back(str);
-				cout << "Result of adition: " + a << endl;
+
+				vectorResult.push_back(bigIntegerToString(a));
+				cout << "Result of the division: " + bigIntegerToString(a) << endl;
 			}
 		}
 		if (command == "swap" || command == "SWAP") {
