@@ -657,6 +657,7 @@ int main(int argc, char **argv) {
 		}
 		if (command == "bin" || command == "BIN") {
 			string number = vectorResult[vectorResult.size() - 1];
+			char last_char = number.at(number.length() - 1);
 			cout << number << endl;
 			if (isInteger(number)) {
 
@@ -684,21 +685,47 @@ int main(int argc, char **argv) {
 
 		if (command == "hex" || command == "HEX") {
 			string number = vectorResult[vectorResult.size() - 1];
+			char last_char = number.at(number.length() - 1);
 			char hex[20];
 			if (isInteger(number)) {
 				int result;
 				stringstream(number) >> result;
 				BigInteger a = stringToBigInteger(number);
 				cout << "Number to convert to HEX: " + number << endl;
-				//num.bigDecimal2Hex(a);
-				//string binary = num.bigDecToBin(a);
-				//cout << binary << endl;
-				//cout << num.GetHexFromBin(binary) + " get Hex From Bin"<<endl;
-				//cout << num.getHexRowFails(binary) +" ,<- getHexRows" <<endl;
-				//cout << num.bigDecimal2Hex(a) + " <- BigDecimal to Hex"<<endl;
 				cout << num.dec_to_hex(a) << endl;
 				vectorResult.push_back(num.dec_to_hex(a) + "_HEX");
-				//num.binary_hex(999999999, hex);
+			}
+			if (last_char == 'X') {
+				cout << "This number is already a Hex: ";
+				cout << number << endl;
+			}
+			if (last_char == 'N') {
+				cout << "Convert number: ";
+				cout << number << endl;
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				cout << number << endl;
+				BigInteger binary = stringToBigInteger(number);
+				BigInteger decimal = num.binaryToBase10(binary);
+				string Hex = num.dec_to_hex(decimal);
+				cout << "The result is: ";
+				cout << decimal << endl;
+			}
+			if (last_char == 'T') {
+				cout << "Convert number: ";
+				cout << number << endl;
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				cout << number << endl;
+				BigInteger octal = stringToBigInteger(number);
+				BigInteger decimal = num.octal_decimal(octal);
+				string Hex = num.dec_to_hex(decimal);
+				cout << "The result is: ";
+				cout << decimal << endl;
 			}
 		}
 
@@ -744,9 +771,8 @@ int main(int argc, char **argv) {
 
 				cout << "The result is: ";
 				cout << decimal << endl;
-			}
-			else
-				cout << "Probably you have a decimal number"<<endl;
+			} else
+				cout << "Probably you have a decimal number" << endl;
 
 		}
 
