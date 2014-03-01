@@ -59,9 +59,6 @@ public:
 
 		return string(result + index);
 	}
-	string getResultBIN() {
-		return resultBin;
-	}
 	string convertInt2String(int number) {
 		if (number == 0)
 			return "0";
@@ -163,12 +160,27 @@ public:
 			return bigDecToBin(number / 2) + "1";
 	}
 //New Method for BigInteger
-	BigInteger BinToDec(string number) {
-		BigInteger result = 0, pow = 1;
-		//for ( BigInteger i = number.length() - 1; i >= 0; --i, pow <<= 1 )
-		//  result += (number[i] - '0') * pow;
+	BigInteger binaryToBase10(BigInteger n) {
 
-		return result;
+		BigInteger output = 0;
+
+		for (BigInteger i = 0; n > 0; i++) {
+
+			if (n % 10 == 1) {
+				output += powerB(2, i);
+			}
+			n /= 10;
+		}
+
+		return output;
+	}
+	BigInteger powerB(BigInteger base, BigInteger exponent) {
+
+		BigInteger ans = 1;
+		for (BigInteger i = 0; i < exponent; i++) {
+			ans *= base;
+		}
+		return ans;
 	}
 	//New Method for BigInteger
 	string bigDeci2Octal(BigInteger value) {
@@ -192,6 +204,18 @@ public:
 		reverse(toBeReversed.begin(), toBeReversed.end());
 		cout << "Conversion result: " + stringConvert + "_OCT" << endl;
 		return string(toBeReversed);
+	}
+
+	BigInteger octal_decimal(BigInteger n) /* Function to convert octal to decimal */
+	{
+		BigInteger decimal = 0, i = 0, rem;
+		while (n != 0) {
+			rem = n % 10;
+			n /= 10;
+			decimal += rem * powerB(8, i);
+			++i;
+		}
+		return decimal;
 	}
 
 	string bigDecimal2Hex(BigInteger value) {
@@ -252,6 +276,34 @@ public:
 		cout << endl;
 
 		return result;
+	}
+
+	BigInteger hexCharToDec(char c) {
+		if (c >= 'A' && c <= 'F')
+			return 10 + (c - 'A');
+		else
+			// 0 - 9
+			return c - '0';
+	}
+	BigInteger hex_to_decimal(string hex_in) {
+		BigInteger dec = 0;
+
+		for (unsigned int i = 0; i < hex_in.length(); i++) {
+			char hexChar = hex_in[i];
+			dec = dec * 16 + hexCharToDec(hexChar);
+		}
+		return dec;
+
+	}
+
+	BigInteger hexadecimal_to_decimal(char character) {
+		BigInteger answer = (BigInteger) character - (BigInteger) ('0');
+
+		if (answer >= 0 && answer <= 9) {
+			return answer;
+		} else {
+			return (BigInteger) character - (BigInteger) ('A') + 10;
+		}
 	}
 
 	string GetHexFromBin(string sBinary) {
@@ -650,22 +702,51 @@ int main(int argc, char **argv) {
 			}
 		}
 
-		if (command == "big") {
-			cout << "Big Integer test: " << endl;
-			BigInteger a;
-			string str = "43443243243242";
-			cout << "Enter a integer: " << endl;
-			cout << "the number will be : a * a * a * a * a * a * a * a"
-					<< endl;
-			int result;
-			cin >> result;
+		if (command == "dec" || command == "DEC") {
+			string number = vectorResult[vectorResult.size() - 1];
+			char last_char = number.at(number.length() - 1);
 
-			a = result;
-			//stringstream("3324324323423432432") >> result;
+			if (last_char == 'N') {
+				cout << "Convert number: ";
+				cout << number << endl;
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				cout << number << endl;
+				BigInteger binary = stringToBigInteger(number);
+				BigInteger decimal = num.binaryToBase10(binary);
+				cout << "The result is: ";
+				cout << decimal << endl;
+			}
+			if (last_char == 'T') {
+				cout << "Convert number: ";
+				cout << number << endl;
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				cout << number << endl;
+				BigInteger octal = stringToBigInteger(number);
+				BigInteger decimal = num.octal_decimal(octal);
+				cout << "The result is: ";
+				cout << decimal << endl;
+			}
+			if (last_char == 'X') {
+				cout << "Convert number: ";
+				cout << number << endl;
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				cout << number << endl;
+				BigInteger decimal = num.hex_to_decimal(number);
 
-			vectorResult.push_back(
-					bigIntegerToString(a * a * a * a * a * a * a * a));
-			cout << (a * a * a * a * a * a * a * a) << endl;
+				cout << "The result is: ";
+				cout << decimal << endl;
+			}
+			else
+				cout << "Probably you have a decimal number"<<endl;
 
 		}
 
@@ -698,7 +779,8 @@ int main(int argc, char **argv) {
 				//int a = 10;
 
 				vectorResult.push_back(bigIntegerToString(a));
-				cout << "Result of the adition: " + bigIntegerToString(a) << endl;
+				cout << "Result of the adition: " + bigIntegerToString(a)
+						<< endl;
 			}
 		}
 		if (command == "sub" || command == "SUB") {
@@ -713,7 +795,8 @@ int main(int argc, char **argv) {
 				//int a = 10;
 
 				vectorResult.push_back(bigIntegerToString(a));
-				cout << "Result of the subtration: " + bigIntegerToString(a) << endl;
+				cout << "Result of the subtration: " + bigIntegerToString(a)
+						<< endl;
 			}
 		}
 		if (command == "mul" || command == "MUL") {
@@ -729,7 +812,8 @@ int main(int argc, char **argv) {
 				stringstream ss;
 
 				vectorResult.push_back(bigIntegerToString(a));
-				cout << "Result of the multiply: " + bigIntegerToString(a) << endl;
+				cout << "Result of the multiply: " + bigIntegerToString(a)
+						<< endl;
 			}
 		}
 
@@ -746,7 +830,8 @@ int main(int argc, char **argv) {
 				stringstream ss;
 
 				vectorResult.push_back(bigIntegerToString(a));
-				cout << "Result of the division: " + bigIntegerToString(a) << endl;
+				cout << "Result of the division: " + bigIntegerToString(a)
+						<< endl;
 			}
 		}
 		if (command == "swap" || command == "SWAP") {
