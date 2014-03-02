@@ -651,25 +651,149 @@ int main(int argc, char **argv) {
 
 		if (command == "stk" || command == "SKT") {
 			cout << "Stack !!!!" << endl;
-			for (int var = 0; var < vectorResult.size(); var++) {
-				cout << vectorResult[var] << endl;
-			}
+			if (vectorResult.size() > 0) {
+				for (int var = 0; var < vectorResult.size(); var++) {
+					cout << vectorResult[var] << endl;
+				}
+			} else
+				cout << "Looks like the stack is empty." << endl;
 		}
 		if (command == "bin" || command == "BIN") {
-			string number = vectorResult[vectorResult.size() - 1];
-			char last_char = number.at(number.length() - 1);
-			cout << number << endl;
-			if (isInteger(number)) {
+			if (vectorResult.size() > 0) {
 
-				BigInteger result = stringToBigInteger(number);
-				//stringstream(number) >> result;
-				//num.convertDECtoBIN(result);
-				//num.convertDECtoBIN(result);
-				cout << result;
+				string number = vectorResult[vectorResult.size() - 1];
 
-				vectorResult.push_back(num.bigDecToBin(result) + "_BIN");
+				char last_char = number.at(number.length() - 1);
+				cout << number << endl;
+
+				if (isInteger(number)) {
+
+					BigInteger result = stringToBigInteger(number);
+					//stringstream(number) >> result;
+					//num.convertDECtoBIN(result);
+					//num.convertDECtoBIN(result);
+
+					vectorResult.push_back(num.bigDecToBin(result) + "_BIN");
+					cout << "Added: ";
+					cout << num.bigDecToBin(result) << endl;
+					if (last_char == 'N') {
+						cout << "This number is already a binary: " << endl;
+					}
+					if (last_char == 'T') {
+						cout << "Convert number: ";
+						cout << number << endl;
+						number.erase(number.size() - 1);
+						number.erase(number.size() - 1);
+						number.erase(number.size() - 1);
+						number.erase(number.size() - 1);
+						cout << number << endl;
+						BigInteger octal = stringToBigInteger(number);
+						BigInteger decimal = num.octal_decimal(octal);
+						string binary = num.bigDecToBin(decimal);
+						cout << "The result is: ";
+						cout << binary << endl;
+						vectorResult.push_back(binary + "_BIN");
+					}
+					if (last_char == 'X') {
+						cout << "Convert number: ";
+						cout << number << endl;
+						number.erase(number.size() - 1);
+						number.erase(number.size() - 1);
+						number.erase(number.size() - 1);
+						number.erase(number.size() - 1);
+						cout << number << endl;
+						BigInteger decimal = num.hex_to_decimal(number);
+						string binary = num.bigDecToBin(decimal);
+						cout << "The result is: ";
+						cout << binary << endl;
+						vectorResult.push_back(binary + "_BIN");
+					}
+				}
+			} else
+				cout << "You must enter some data first" << endl;//End of the if for the size
+		}
+
+		if (command == "oct" || command == "OCT") {
+			if (vectorResult.size() > 0) {
+				string number = vectorResult[vectorResult.size() - 1];
+				char last_char = number.at(number.length() - 1);
+				if (isInteger(number)) {
+					BigInteger result = stringToBigInteger(number);
+					//stringstream(number) >> result;
+					cout << "Number to convert to OCT: " + number << endl;
+
+					vectorResult.push_back(num.bigDeci2Octal(result) + "_OCT");
+				}
+				if (last_char == 'T') {
+					cout << "This number is already an octal: ";
+					cout << number << endl;
+				}
 				if (last_char == 'N') {
-					cout << "This number is already a binary: " << endl;
+					cout << "Convert number: ";
+					cout << number << endl;
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					cout << number << endl;
+					BigInteger binary = stringToBigInteger(number);
+					BigInteger decimal = num.binaryToBase10(binary);
+					string octal = num.bigDeci2Octal(decimal);
+					cout << "The result is: ";
+					cout << octal << endl;
+					vectorResult.push_back(octal + "_OCT");
+				}
+				if (last_char == 'X') {
+					cout << "Convert number: ";
+					cout << number << endl;
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					cout << number << endl;
+					BigInteger decimal = num.hex_to_decimal(number);
+					string octal = num.bigDeci2Octal(decimal);
+
+					cout << "The result is: ";
+					cout << octal << endl;
+					vectorResult.push_back(octal + "_OCT");
+				}
+			}					//end of the if size()
+			else
+				cout << "You must enter some data first" << endl;
+		}
+
+		if (command == "hex" || command == "HEX") {
+			if (vectorResult.size() > 0) {
+				string number = vectorResult[vectorResult.size() - 1];
+				char last_char = number.at(number.length() - 1);
+				char hex[20];
+				if (isInteger(number)) {
+					int result;
+					stringstream(number) >> result;
+					BigInteger a = stringToBigInteger(number);
+					cout << "Number to convert to HEX: " + number << endl;
+					cout << num.dec_to_hex(a) << endl;
+					vectorResult.push_back(num.dec_to_hex(a) + "_HEX");
+				}
+				if (last_char == 'X') {
+					cout << "This number is already a Hex: ";
+					cout << number << endl;
+				}
+				if (last_char == 'N') {
+					cout << "Convert number: ";
+					cout << number << endl;
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					cout << number << endl;
+					BigInteger binary = stringToBigInteger(number);
+					BigInteger decimal = num.binaryToBase10(binary);
+					string Hex = num.dec_to_hex(decimal);
+					cout << "The result is: ";
+					cout << hex << endl;
+					vectorResult.push_back(Hex + "_HEX");
 				}
 				if (last_char == 'T') {
 					cout << "Convert number: ";
@@ -681,9 +805,50 @@ int main(int argc, char **argv) {
 					cout << number << endl;
 					BigInteger octal = stringToBigInteger(number);
 					BigInteger decimal = num.octal_decimal(octal);
-					string binary = num.bigDecToBin(decimal);
+					string Hex = num.dec_to_hex(decimal);
 					cout << "The result is: ";
-					cout << binary << endl;
+					cout << Hex << endl;
+					vectorResult.push_back(Hex + "_HEX");
+				}
+			}					//end of the if size()
+			else
+				cout << "You must enter some data first" << endl;
+		}
+
+		if (command == "dec" || command == "DEC") {
+			if (vectorResult.size() > 0) {
+				string number = vectorResult[vectorResult.size() - 1];
+				char last_char = number.at(number.length() - 1);
+
+				if (last_char == 'N') {
+					cout << "Convert number: ";
+					cout << number << endl;
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					cout << number << endl;
+					BigInteger binary = stringToBigInteger(number);
+					BigInteger decimal = num.binaryToBase10(binary);
+					cout << "The result is: ";
+					cout << decimal;
+					cout << " added to the stack" << endl;
+					vectorResult.push_back(bigIntegerToString(decimal));
+				}
+				if (last_char == 'T') {
+					cout << "Convert number: ";
+					cout << number << endl;
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					cout << number << endl;
+					BigInteger octal = stringToBigInteger(number);
+					BigInteger decimal = num.octal_decimal(octal);
+					cout << "The result is: ";
+					cout << decimal;
+					cout << " added to the stack" << endl;
+					vectorResult.push_back(bigIntegerToString(decimal));
 				}
 				if (last_char == 'X') {
 					cout << "Convert number: ";
@@ -694,148 +859,16 @@ int main(int argc, char **argv) {
 					number.erase(number.size() - 1);
 					cout << number << endl;
 					BigInteger decimal = num.hex_to_decimal(number);
-					string binary = num.bigDecToBin(decimal);
+
 					cout << "The result is: ";
-					cout << binary << endl;
+					cout << decimal;
+					cout << " added to the stack" << endl;
+					vectorResult.push_back(bigIntegerToString(decimal));
 				}
-			}
-
-		}
-
-		if (command == "oct" || command == "OCT") {
-			string number = vectorResult[vectorResult.size() - 1];
-			char last_char = number.at(number.length() - 1);
-			if (isInteger(number)) {
-				BigInteger result = stringToBigInteger(number);
-				//stringstream(number) >> result;
-				cout << "Number to convert to OCT: " + number << endl;
-
-				vectorResult.push_back(num.bigDeci2Octal(result) + "_OCT");
-			}
-			if (last_char == 'T') {
-				cout << "This number is already an octal: ";
-				cout << number << endl;
-			}
-			if (last_char == 'N') {
-				cout << "Convert number: ";
-				cout << number << endl;
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				cout << number << endl;
-				BigInteger binary = stringToBigInteger(number);
-				BigInteger decimal = num.binaryToBase10(binary);
-				string octal = num.bigDeci2Octal(decimal);
-				cout << "The result is: ";
-				cout << octal << endl;
-			}
-			if (last_char == 'X') {
-				cout << "Convert number: ";
-				cout << number << endl;
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				cout << number << endl;
-				BigInteger decimal = num.hex_to_decimal(number);
-				string octal = num.bigDeci2Octal(decimal);
-
-				cout << "The result is: ";
-				cout << octal << endl;
-			}
-		}
-
-		if (command == "hex" || command == "HEX") {
-			string number = vectorResult[vectorResult.size() - 1];
-			char last_char = number.at(number.length() - 1);
-			char hex[20];
-			if (isInteger(number)) {
-				int result;
-				stringstream(number) >> result;
-				BigInteger a = stringToBigInteger(number);
-				cout << "Number to convert to HEX: " + number << endl;
-				cout << num.dec_to_hex(a) << endl;
-				vectorResult.push_back(num.dec_to_hex(a) + "_HEX");
-			}
-			if (last_char == 'X') {
-				cout << "This number is already a Hex: ";
-				cout << number << endl;
-			}
-			if (last_char == 'N') {
-				cout << "Convert number: ";
-				cout << number << endl;
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				cout << number << endl;
-				BigInteger binary = stringToBigInteger(number);
-				BigInteger decimal = num.binaryToBase10(binary);
-				string Hex = num.dec_to_hex(decimal);
-				cout << "The result is: ";
-				cout << decimal << endl;
-			}
-			if (last_char == 'T') {
-				cout << "Convert number: ";
-				cout << number << endl;
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				cout << number << endl;
-				BigInteger octal = stringToBigInteger(number);
-				BigInteger decimal = num.octal_decimal(octal);
-				string Hex = num.dec_to_hex(decimal);
-				cout << "The result is: ";
-				cout << decimal << endl;
-			}
-		}
-
-		if (command == "dec" || command == "DEC") {
-			string number = vectorResult[vectorResult.size() - 1];
-			char last_char = number.at(number.length() - 1);
-
-			if (last_char == 'N') {
-				cout << "Convert number: ";
-				cout << number << endl;
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				cout << number << endl;
-				BigInteger binary = stringToBigInteger(number);
-				BigInteger decimal = num.binaryToBase10(binary);
-				cout << "The result is: ";
-				cout << decimal << endl;
-			}
-			if (last_char == 'T') {
-				cout << "Convert number: ";
-				cout << number << endl;
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				cout << number << endl;
-				BigInteger octal = stringToBigInteger(number);
-				BigInteger decimal = num.octal_decimal(octal);
-				cout << "The result is: ";
-				cout << decimal << endl;
-			}
-			if (last_char == 'X') {
-				cout << "Convert number: ";
-				cout << number << endl;
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				number.erase(number.size() - 1);
-				cout << number << endl;
-				BigInteger decimal = num.hex_to_decimal(number);
-
-				cout << "The result is: ";
-				cout << decimal << endl;
 			} else
-				cout << "Probably you have a decimal number" << endl;
+				cout
+						<< "Probably you have a decimal number, or you must have to enter some data."
+						<< endl;
 
 		}
 
@@ -857,94 +890,123 @@ int main(int argc, char **argv) {
 		}
 
 		if (command == "add" || command == "ADD") {
-			//suma los dos ultimos valores del stack y el resul
-			string number = vectorResult[vectorResult.size() - 1];
-			string numberP = vectorResult[vectorResult.size() - 2];
-			if (isInteger(number)) {
-				BigInteger result = stringToBigInteger(number);
-				BigInteger resultP = stringToBigInteger(numberP);
+			if (vectorResult.size() > 1) {
+				//suma los dos ultimos valores del stack y el resul
+				string number = vectorResult[vectorResult.size() - 1];
+				string numberP = vectorResult[vectorResult.size() - 2];
+				if (isInteger(number)) {
+					BigInteger result = stringToBigInteger(number);
+					BigInteger resultP = stringToBigInteger(numberP);
 
-				BigInteger a = result + resultP;
-				//int a = 10;
+					BigInteger a = result + resultP;
+					//int a = 10;
 
-				vectorResult.push_back(bigIntegerToString(a));
-				cout << "Result of the adition: " + bigIntegerToString(a)
+					vectorResult.push_back(bigIntegerToString(a));
+					cout << "Result of the adition: " + bigIntegerToString(a)
+							<< endl;
+				}
+			} else
+				cout << "I need at least two elements to start the addition"
 						<< endl;
-			}
 		}
 		if (command == "sub" || command == "SUB") {
-			//resta (subtract) los dos ultimos valores del stack y el resul
-			string number = vectorResult[vectorResult.size() - 1];
-			string numberP = vectorResult[vectorResult.size() - 2];
-			if (isInteger(number)) {
-				BigInteger result = stringToBigInteger(number);
-				BigInteger resultP = stringToBigInteger(numberP);
+			if (vectorResult.size() > 1) {
+				//resta (subtract) los dos ultimos valores del stack y el resul
+				string number = vectorResult[vectorResult.size() - 1];
+				string numberP = vectorResult[vectorResult.size() - 2];
+				if (isInteger(number)) {
+					BigInteger result = stringToBigInteger(number);
+					BigInteger resultP = stringToBigInteger(numberP);
 
-				BigInteger a = result - resultP;
-				//int a = 10;
+					BigInteger a = result - resultP;
+					//int a = 10;
 
-				vectorResult.push_back(bigIntegerToString(a));
-				cout << "Result of the subtration: " + bigIntegerToString(a)
+					vectorResult.push_back(bigIntegerToString(a));
+					cout << "Result of the subtration: " + bigIntegerToString(a)
+							<< endl;
+				}
+			} else
+				cout << "I need at least two elements to start the subtraction"
 						<< endl;
-			}
 		}
 		if (command == "mul" || command == "MUL") {
-			//multiplica (multiply) los dos ultimos valores del stack y el resul
-			string number = vectorResult[vectorResult.size() - 1];
-			string numberP = vectorResult[vectorResult.size() - 2];
-			if (isInteger(number)) {
-				BigInteger result = stringToBigInteger(number);
-				BigInteger resultP = stringToBigInteger(numberP);
+			if (vectorResult.size() > 1) {
+				//multiplica (multiply) los dos ultimos valores del stack y el resul
+				string number = vectorResult[vectorResult.size() - 1];
+				string numberP = vectorResult[vectorResult.size() - 2];
+				if (isInteger(number)) {
+					BigInteger result = stringToBigInteger(number);
+					BigInteger resultP = stringToBigInteger(numberP);
 
-				BigInteger a = result * resultP;
-				//int a = 10;
-				stringstream ss;
+					BigInteger a = result * resultP;
+					//int a = 10;
+					stringstream ss;
 
-				vectorResult.push_back(bigIntegerToString(a));
-				cout << "Result of the multiply: " + bigIntegerToString(a)
-						<< endl;
-			}
+					vectorResult.push_back(bigIntegerToString(a));
+					cout << "Result of the multiply: " + bigIntegerToString(a)
+							<< endl;
+				}
+			} else
+				cout << "Need at least two elemtns to multiply first" << endl;
 		}
 
 		if (command == "div" || command == "div") {
-			//multiplica (multiply) los dos ultimos valores del stack y el resul
-			string number = vectorResult[vectorResult.size() - 1];
-			string numberP = vectorResult[vectorResult.size() - 2];
-			if (isInteger(number)) {
-				BigInteger result = stringToBigInteger(number);
-				BigInteger resultP = stringToBigInteger(numberP);
+			if (vectorResult.size() > 1) {
+				//multiplica (multiply) los dos ultimos valores del stack y el resul
+				string number = vectorResult[vectorResult.size() - 1];
+				string numberP = vectorResult[vectorResult.size() - 2];
+				if (isInteger(number)) {
+					BigInteger result = stringToBigInteger(number);
+					BigInteger resultP = stringToBigInteger(numberP);
+					if (resultP != 0) {
+						BigInteger a = result / resultP;
+						//int a = 10;
+						stringstream ss;
 
-				BigInteger a = result / resultP;
-				//int a = 10;
-				stringstream ss;
-
-				vectorResult.push_back(bigIntegerToString(a));
-				cout << "Result of the division: " + bigIntegerToString(a)
+						vectorResult.push_back(bigIntegerToString(a));
+						cout
+								<< "Result of the division: "
+										+ bigIntegerToString(a) << endl;
+					}
+					if (resultP == 0) {
+						cout
+								<< "The divitions by zero is at the moment undefined, but probably that is infinity"
+								<< endl;
+					}
+				}
+			} else
+				cout << "I need two elements in order to make a divison"
 						<< endl;
-			}
 		}
 		if (command == "swap" || command == "SWAP") {
-			string objFinal;
-			string objFirst;
+			if (vectorResult.size() > 1) {
+				string objFinal;
+				string objFirst;
 
-			objFinal = vectorResult[vectorResult.size() - 1];
-			objFirst = vectorResult[vectorResult.size() - 2];
+				objFinal = vectorResult[vectorResult.size() - 1];
+				objFirst = vectorResult[vectorResult.size() - 2];
 
-			vectorResult.erase(vectorResult.end() - 1);
-			vectorResult.erase(vectorResult.end() - 1);
+				vectorResult.erase(vectorResult.end() - 1);
+				vectorResult.erase(vectorResult.end() - 1);
 
-			vectorResult.push_back(objFinal);
-			vectorResult.push_back(objFirst);
-			cout << "Swaped !!" << endl;
+				vectorResult.push_back(objFinal);
+				vectorResult.push_back(objFirst);
+				cout << "Swaped !!" << endl;
+			} else
+				cout << "I need two elements to swap." << endl;
 
 		}
 		if (command == "neg" || command == "NEG") {
-			string objFinal = vectorResult[vectorResult.size() - 1];
-			BigInteger number = stringToBigInteger(objFinal);
-			number = number * -1;
-			cout << "This is the new number: " + bigIntegerToString(number)
-					<< endl;
-			vectorResult.push_back(bigIntegerToString(number));
+			if (vectorResult.size() > 0) {
+				string objFinal = vectorResult[vectorResult.size() - 1];
+				BigInteger number = stringToBigInteger(objFinal);
+				number = number * -1;
+				cout << "This is the new number: " + bigIntegerToString(number);
+				cout << " added to the stack." << endl;
+				vectorResult.push_back(bigIntegerToString(number));
+			} else
+				cout << "I need any number to negate first, add some data"
+						<< endl;
 		}
 		if (command == "help" || command == "?") {
 			cout << "This is a simple calculator using CLI" << endl;
@@ -960,7 +1022,7 @@ int main(int argc, char **argv) {
 			cout << "To exit just write, bye" << endl;
 		}
 
-		cout << "waiting new command" << endl;
+		cout << "waiting new command ******" << endl;
 		cin >> command;
 
 	} //fin del while.
