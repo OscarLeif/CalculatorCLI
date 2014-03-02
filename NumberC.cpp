@@ -639,7 +639,7 @@ int main(int argc, char **argv) {
 	//cout << "Here I show the last element of the vector" << endl;
 	//cout << vectorResult[vectorResult.size() - 1] << endl;
 
-	cout << "Waiting commands " << endl;
+	cout << "Waiting commands ******" << endl;
 	int integer;
 	cin >> command;
 	while (command != "bye") {
@@ -668,18 +668,81 @@ int main(int argc, char **argv) {
 				cout << result;
 
 				vectorResult.push_back(num.bigDecToBin(result) + "_BIN");
+				if (last_char == 'N') {
+					cout << "This number is already a binary: " << endl;
+				}
+				if (last_char == 'T') {
+					cout << "Convert number: ";
+					cout << number << endl;
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					cout << number << endl;
+					BigInteger octal = stringToBigInteger(number);
+					BigInteger decimal = num.octal_decimal(octal);
+					string binary = num.bigDecToBin(decimal);
+					cout << "The result is: ";
+					cout << binary << endl;
+				}
+				if (last_char == 'X') {
+					cout << "Convert number: ";
+					cout << number << endl;
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					number.erase(number.size() - 1);
+					cout << number << endl;
+					BigInteger decimal = num.hex_to_decimal(number);
+					string binary = num.bigDecToBin(decimal);
+					cout << "The result is: ";
+					cout << binary << endl;
+				}
 			}
 
 		}
 
 		if (command == "oct" || command == "OCT") {
 			string number = vectorResult[vectorResult.size() - 1];
+			char last_char = number.at(number.length() - 1);
 			if (isInteger(number)) {
 				BigInteger result = stringToBigInteger(number);
 				//stringstream(number) >> result;
 				cout << "Number to convert to OCT: " + number << endl;
 
 				vectorResult.push_back(num.bigDeci2Octal(result) + "_OCT");
+			}
+			if (last_char == 'T') {
+				cout << "This number is already an octal: ";
+				cout << number << endl;
+			}
+			if (last_char == 'N') {
+				cout << "Convert number: ";
+				cout << number << endl;
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				cout << number << endl;
+				BigInteger binary = stringToBigInteger(number);
+				BigInteger decimal = num.binaryToBase10(binary);
+				string octal = num.bigDeci2Octal(decimal);
+				cout << "The result is: ";
+				cout << octal << endl;
+			}
+			if (last_char == 'X') {
+				cout << "Convert number: ";
+				cout << number << endl;
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				number.erase(number.size() - 1);
+				cout << number << endl;
+				BigInteger decimal = num.hex_to_decimal(number);
+				string octal = num.bigDeci2Octal(decimal);
+
+				cout << "The result is: ";
+				cout << octal << endl;
 			}
 		}
 
