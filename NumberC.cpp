@@ -202,7 +202,7 @@ public:
 		ostringstream convert;   // stream used for the conversion
 		string toBeReversed = stringConvert;
 		reverse(toBeReversed.begin(), toBeReversed.end());
-		cout << "Conversion result: " + stringConvert + "_OCT" << endl;
+		cout << "Conversion result: " + toBeReversed + "_OCT" << endl;
 		return string(toBeReversed);
 	}
 
@@ -669,12 +669,6 @@ int main(int argc, char **argv) {
 				if (isInteger(number)) {
 
 					BigInteger result = stringToBigInteger(number);
-					//stringstream(number) >> result;
-					//num.convertDECtoBIN(result);
-					//num.convertDECtoBIN(result);
-
-					vectorResult.push_back(num.bigDecToBin(result) + "_BIN");
-					cout << "Added: ";
 					cout << num.bigDecToBin(result) << endl;
 					if (last_char == 'N') {
 						cout << "This number is already a binary: " << endl;
@@ -706,7 +700,6 @@ int main(int argc, char **argv) {
 						string binary = num.bigDecToBin(decimal);
 						cout << "The result is: ";
 						cout << binary << endl;
-						vectorResult.push_back(binary + "_BIN");
 					}
 				}
 			} else
@@ -721,8 +714,9 @@ int main(int argc, char **argv) {
 					BigInteger result = stringToBigInteger(number);
 					//stringstream(number) >> result;
 					cout << "Number to convert to OCT: " + number << endl;
-
-					vectorResult.push_back(num.bigDeci2Octal(result) + "_OCT");
+					cout<<"The Result is: ";
+					cout << num.bigDeci2Octal(result) << endl;
+					//vectorResult.push_back(num.bigDeci2Octal(result) + "_OCT");
 				}
 				if (last_char == 'T') {
 					cout << "This number is already an octal: ";
@@ -741,7 +735,6 @@ int main(int argc, char **argv) {
 					string octal = num.bigDeci2Octal(decimal);
 					cout << "The result is: ";
 					cout << octal << endl;
-					vectorResult.push_back(octal + "_OCT");
 				}
 				if (last_char == 'X') {
 					cout << "Convert number: ";
@@ -756,7 +749,6 @@ int main(int argc, char **argv) {
 
 					cout << "The result is: ";
 					cout << octal << endl;
-					vectorResult.push_back(octal + "_OCT");
 				}
 			}					//end of the if size()
 			else
@@ -774,7 +766,6 @@ int main(int argc, char **argv) {
 					BigInteger a = stringToBigInteger(number);
 					cout << "Number to convert to HEX: " + number << endl;
 					cout << num.dec_to_hex(a) << endl;
-					vectorResult.push_back(num.dec_to_hex(a) + "_HEX");
 				}
 				if (last_char == 'X') {
 					cout << "This number is already a Hex: ";
@@ -793,7 +784,6 @@ int main(int argc, char **argv) {
 					string Hex = num.dec_to_hex(decimal);
 					cout << "The result is: ";
 					cout << hex << endl;
-					vectorResult.push_back(Hex + "_HEX");
 				}
 				if (last_char == 'T') {
 					cout << "Convert number: ";
@@ -808,7 +798,6 @@ int main(int argc, char **argv) {
 					string Hex = num.dec_to_hex(decimal);
 					cout << "The result is: ";
 					cout << Hex << endl;
-					vectorResult.push_back(Hex + "_HEX");
 				}
 			}					//end of the if size()
 			else
@@ -831,9 +820,7 @@ int main(int argc, char **argv) {
 					BigInteger binary = stringToBigInteger(number);
 					BigInteger decimal = num.binaryToBase10(binary);
 					cout << "The result is: ";
-					cout << decimal;
-					cout << " added to the stack" << endl;
-					vectorResult.push_back(bigIntegerToString(decimal));
+					cout << decimal<<endl;
 				}
 				if (last_char == 'T') {
 					cout << "Convert number: ";
@@ -846,9 +833,7 @@ int main(int argc, char **argv) {
 					BigInteger octal = stringToBigInteger(number);
 					BigInteger decimal = num.octal_decimal(octal);
 					cout << "The result is: ";
-					cout << decimal;
-					cout << " added to the stack" << endl;
-					vectorResult.push_back(bigIntegerToString(decimal));
+					cout << decimal<<endl;
 				}
 				if (last_char == 'X') {
 					cout << "Convert number: ";
@@ -861,9 +846,7 @@ int main(int argc, char **argv) {
 					BigInteger decimal = num.hex_to_decimal(number);
 
 					cout << "The result is: ";
-					cout << decimal;
-					cout << " added to the stack" << endl;
-					vectorResult.push_back(bigIntegerToString(decimal));
+					cout << decimal<<endl;
 				}
 			} else
 				cout
